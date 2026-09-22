@@ -18,6 +18,14 @@ import { join } from "node:path";
 
 const BACKEND = "https://chatgpt.com/backend-api";
 const STATUS_KEY = "reset-chatgpt";
+/**
+ * U+273B has the same six-fold radial symmetry as the OpenAI mark and exists in
+ * ordinary monospace fonts. Deliberately not U+2733, which many terminals resolve
+ * through an emoji font and then render double-width and colored.
+ */
+const BRAND_GLYPH = "✻";
+const WARNING_AT_MS = 24 * 3600 * 1000;
+const URGENT_AT_MS = 2 * 3600 * 1000;
 const TICK_MS = 30_000;
 const REQUEST_TIMEOUT_MS = 20_000;
 const USER_AGENT = "pi-reset-chatgpt";
@@ -203,8 +211,10 @@ export default function (pi: ExtensionAPI) {
 			void clearReminder(ctx);
 			return;
 		}
-		const color = remaining <= 24 * 3600 * 1000 ? "warning" : "accent";
-		ctx.ui.setStatus(STATUS_KEY, ctx.ui.theme.fg(color, `↺ ${formatDuration(remaining)}`));
+		// The whole reminder is one token in a crowded footer, so urgency is carried
+		// by color rather than by extra words.
+		const color = remaining <= URGENT_AT_MS ? "error" : remaining <= WARNING_AT_MS ? "warning" : "accent";
+		ctx.ui.setStatus(STATUS_KEY, ctx.ui.theme.fg(color, `${BRAND_GLYPH} ${formatDuration(remaining)}`));
 	};
 
 	const startReminder = (ctx: ExtensionContext, next: ReminderState) => {
