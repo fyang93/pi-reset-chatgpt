@@ -16,18 +16,14 @@ gone. So the extension records the original reset time before redeeming and show
 how long you have left to actually use what you just got back.
 
 ```
-✻ 2d 23h        # plenty of time left
-✻ 8h 12m        # amber under 24 hours
-✻ 47m           # red under 2 hours
+ChatGPT: 2d 23h        # plenty of time left
+ChatGPT: 8h 12m        # amber under 24 hours
+ChatGPT: 47m           # red under 2 hours
 ```
 
 The countdown appears only after you redeem a reset, and disappears on its own
 once the deadline passes. It never interrupts you — urgency is carried by color,
 not by notifications.
-
-`✻` (U+273B) stands in for the OpenAI mark: same six-fold radial symmetry, and
-unlike `✳` it exists in ordinary monospace fonts instead of being resolved
-through an emoji font and rendered double-width.
 
 ## Install
 
